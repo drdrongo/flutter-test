@@ -28,16 +28,17 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home:
+          const MyHomePage(title: 'Hayato\'s cool app!', muffins: '3 Muffins!'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.title, required this.muffins});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -49,6 +50,7 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  final String muffins;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -56,6 +58,24 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  int muffinPets = 1;
+  double yOffset = 200;
+
+  void changeY() {
+    setState(() {
+      if (yOffset == 200) {
+        yOffset = 300;
+      } else {
+        yOffset = 200;
+      }
+    });
+  }
+
+  void _petMuffin() {
+    setState(() {
+      muffinPets++;
+    });
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -81,7 +101,12 @@ class _MyHomePageState extends State<MyHomePage> {
         // TRY THIS: Try changing the color here to a specific color (to
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
         // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        // backgroundColor: Theme.of(context).colorScheme.inverseSurface,
+        backgroundColor: Colors.amber,
+        shadowColor: Colors.pink,
+        // shape: StarBorder(points: 5),
+        shape: BeveledRectangleBorder(
+            side: BorderSide(width: 2, color: Colors.red)),
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
@@ -89,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: Column(
+        child: Stack(
           // Column is also a layout widget. It takes a list of children and
           // arranges them vertically. By default, it sizes itself to fit its
           // children horizontally, and tries to be as tall as its parent.
@@ -103,21 +128,30 @@ class _MyHomePageState extends State<MyHomePage> {
           // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            AnimatedPositioned(
+                duration: const Duration(seconds: 1),
+                height: 200,
+                left: 50,
+                top: yOffset,
+                child: Container(height: 50, width: 50, color: Colors.blue)),
+            Column(children: [
+              Container(height: 200, width: 200, color: Colors.amber)
+            ]),
+            // const Text(
+            //   'You have petted Muffin this many times:',
+            // ),
+            // Text(
+            //   '$muffinPets',
+            //   style: Theme.of(context).textTheme.headlineMedium,
+            // ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: changeY,
+        tooltip: 'Pet Muffin!',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
