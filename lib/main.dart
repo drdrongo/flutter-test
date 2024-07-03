@@ -59,14 +59,14 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   int muffinPets = 1;
-  double yOffset = 200;
+  double yOffset = 100;
 
   void changeY() {
     setState(() {
-      if (yOffset == 200) {
-        yOffset = 300;
-      } else {
+      if (yOffset == 100) {
         yOffset = 200;
+      } else {
+        yOffset = 100;
       }
     });
   }
@@ -130,15 +130,39 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            AnimatedPositioned(
-                duration: const Duration(seconds: 1),
-                height: 200,
-                left: 50,
-                top: yOffset,
-                child: Container(height: 50, width: 50, color: Colors.blue)),
-            Column(children: [
-              Container(height: 200, width: 200, color: Colors.amber)
-            ]),
+            Center(
+              child: AnimatedBuilder(
+                animation: _animation,
+                builder: (context, child) {
+                  return Transform.translate(
+                    offset: Offset(0, _animation.value),
+                    child: child,
+                  );
+                },
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  color: Colors.blue,
+                  child: Center(
+                    child: Text(
+                      'Tap me',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            )
+
+            // Column(children: [
+            //   Container(height: 200, width: 200, color: Colors.amber)
+            // ]),
+
+            // AnimatedPositioned(
+            //     duration: const Duration(milliseconds: 100),
+            //     height: 200,
+            //     left: 50,
+            //     top: yOffset,
+            //     child: Container(height: 50, width: 50, color: Colors.blue)),
             // const Text(
             //   'You have petted Muffin this many times:',
             // ),
